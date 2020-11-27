@@ -5,17 +5,17 @@ API Tiktok use Python
 pip install requests
 
 # get user info
-uid = Api.getUserId('vtkh2004')\n
-print(uid)
+`uid = Api.getUserId('vtkh2004')
+print(uid)`
 
 # get user post
-feed  = Api.getUserFeed(uid, '0')\n
-print(feed)
+`feed  = Api.getUserFeed(uid, '0')
+print(feed)`
 
 # get video trending
-trending = Api.getTrendingFeed()\n
-print(trending)
+`trending = Api.getTrendingFeed()
+print(trending)`
 
 # get video id 
-vid = Api.getVideoById('6897853325761350913')\n
-print(vid)
+`vid = Api.getVideoById('6897853325761350913')\n
+print(vid)`
