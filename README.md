@@ -4,6 +4,11 @@ API Tiktok use Python
 # Install
 pip install requests
 
+# How to use
+```python
+import TiktokApi
+Api = TiktokApi.Tiktok()
+```
 # get user info
 ```python
 uid = Api.getUserId('vtkh2004')
