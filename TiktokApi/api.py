@@ -6,67 +6,210 @@ import re
 import urllib.parse
 
 class Tiktok:
-	def __init__(self):
-		pass
+	def __init__(self, cookie = None, verifyFp = None):
+		
+		self.BASE_URL = 'https://www.tiktok.com/node/'
+		self.cookie = cookie
+		self.verifyFp = verifyFp
+		self.headers = {
+			'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36 OPR/72.0.3815.378',
+			'cookie' : self.cookie
+			}
 
+	def getCookie(self, cookies):
+		ck = ''
+		if(cookies):
+			for value in cookies:
+				ck = ck + value + ':' + cookies[value]
+				ck = ck + '; '
+			return ck
+		return None
 
-	def getUserId(self, username):
+	def getChallenge(self, challenge):
+		if(challenge == ''):
+			return False
+		challenge = urllib.parse.quote(challenge)
+		url = self.BASE_URL + 'share/tag/' + challenge
+		data = requests.get(url, headers=self.headers)
+		try:
+			data = data.json()
+			return data['challengeInfo']
+		except:
+			return False
+
+	def getChallengeFeed(self, challenge, maxCursor = 0):
+		if(challenge == ''):
+			return False
+		challenge = self.getChallenge(challenge)
+		if(challenge):
+			param = {
+				"type"      : 3,
+				"secUid"    : "",
+				"id"        : challenge['challenge']['id'],
+				"count"     : 30,
+				"minCursor" : 0,
+				"maxCursor" : maxCursor,
+				"shareUid"  : "",
+				"lang"      : "",
+				"verifyFp"  : "",
+				}
+			url = self.BASE_URL + 'video/feed'
+			data = requests.get(url, params=param, headers=self.headers)
+			try:
+				data = data.json()
+				return data['body']
+			except:
+				return False
+		return False
+
+	def getMusic(self, musicId):
+		if(musicId == ''):
+			return False
+		musicId = urllib.parse.quote(musicId)
+		url = self.BASE_URL + 'share/music/original-sound-' + musicId
+		data = requests.get(url, headers=self.headers)
+		try:
+			data = data.json()
+			return data['musicInfo']
+		except:
+			return False
+
+	def getMusicFeed(self, music, maxCursor = 0):
+		if(music == ''):
+			return False
+		music = self.getMusic(music)
+		if(music):
+			param = {
+				"type"      : 4,
+				"secUid"    : "",
+				"id"        : music['music']['id'],
+				"count"     : 30,
+				"minCursor" : 0,
+				"maxCursor" : maxCursor,
+				"shareUid"  : "",
+				"lang"      : "",
+				"verifyFp"  : "",
+				}
+			url = self.BASE_URL + 'video/feed'
+			data = requests.get(url, params=param, headers=self.headers)
+			try:
+				data = data.json()
+				return data['body']
+			except:
+				return False
+		return False
+
+	def getTrendingFeed(self, maxCursor = 0):
+		
+		param = {
+			"type"      : 5,
+			"secUid"    : "",
+			"id"        : 1,
+			"count"     : 30,
+			"minCursor" : 0,
+			"maxCursor" : maxCursor,
+			"shareUid"  : "",
+			"lang"      : "",
+			"verifyFp"  : "",
+			}
+		url = self.BASE_URL + 'video/feed'
+		data = requests.get(url, params=param, headers=self.headers)
+		try:
+			data = data.json()
+			return data['body']
+		except:
+			return False
+
+	def getUser(self, username):
 		if(username==''):
 			return False
-		headers = {
-			'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36 OPR/72.0.3815.378',
-			}
-		url = 'https://t.tiktok.com/node/share/user/@{}'.format(username)
-		result = requests.get(url, headers=headers)
-		dl = result.json()
+		username = urllib.parse.quote(username)
+		url = self.BASE_URL + 'share/user/@' + username
+		data = requests.get(url, headers=self.headers)
 		try:
-			return dl['userInfo']['user']['id']
+			data = data.json()
+			return data['userInfo']
 		except:
-			return None
-
-	def getUserFeed(self, userId, maxCursor):
-		if(userId==''):
 			return False
-		headers = {
-			'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36 OPR/72.0.3815.378',
-			}
-		url = 'https://www.tiktok.com/node/video/feed?id={}&minCursor=0&maxCursor={}&count=100&type=1'.format(userId, maxCursor)
-		result = requests.get(url, headers=headers)
-		dl = result.json()
-		try:
-			return dl['body']
-		except:
-			return None
 
-	def getTrendingFeed(self):
-		headers = {
-			'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36 OPR/72.0.3815.378',
-			}
-		url = 'https://www.tiktok.com/node/video/feed?id=1&minCursor=0&maxCursor=0&count=100&type=5'
-		result = requests.get(url, headers=headers)
-		dl = result.json()
-		try:
-			return dl['body']
-		except:
-			return None
+	def getUserFeed(self, username, maxCursor):
+		if(username==''):
+			return False
+		user = self.getUser(username)
+		if(user):
+			param = {
+				"type"      : 1,
+				"secUid"    : "",
+				"id"        : user['user']['id'],
+				"count"     : 30,
+				"minCursor" : 0,
+				"maxCursor" : maxCursor,
+				"shareUid"  : "",
+				"lang"      : "",
+				"verifyFp"  : "",
+				}
+			url = self.BASE_URL + 'video/feed'
+			data = requests.get(url, params=param, headers=self.headers)
+			try:
+				data = data.json()
+				return data['body']
+			except:
+				return False
+		return False
 
 	def getVideoById(self, vid):
 		if(vid == ''):
 			return False
-		headers = {
-			'user-agent' : 'Googlebot',
-			}
-		url = 'https://m.tiktok.com/v/{}.html'.format(vid)
-		while True:
-			result = requests.get(url, headers=headers)
-			try:
-				pattern = re.compile('type="application/json">(.*?)\\</script>')
-				match = re.search(pattern, result.text)
-				match1 = match.group().replace('type=\"application/json\">', "").replace('</script>', "")
-				dl1 = urllib.parse.unquote_plus(match1)
-				dl = json.loads(dl1)
-				return dl['response']['videoData']['videoId']
-				break
-			except:
-				pass
-			
+		base_url = 'https://api.wppress.net/tiktok/nwm/{}'.format(vid)
+		data = requests.get(base_url, headers=self.headers)
+		try:
+			data = data.json()
+			return data
+		except:
+			return False
+
+	def getVideoByUrl(self, video_url):
+		if(video_url == ''):
+			return False
+		vid = re.findall(r'video\/([0-9]+)',video_url)[0]
+		base_url = 'https://api.wppress.net/tiktok/nwm/{}'.format(vid)
+		data = requests.get(base_url, headers=self.headers)
+		try:
+			data = data.json()
+			return data
+		except:
+			return False
+
+	def DownloadVideoByUrl(self, video_url):
+		# download video no water mark 
+		if(video_url == ''):
+			return False
+		video = self.getVideoByUrl(video_url)
+		if(video):
+			vid = video['id']
+			res = requests.get(f'https://api-h2.tiktokv.com/aweme/v1/play/?video_id={vid}&vr_type=0&is_play_url=1&source=PackSourceEnum_FEED&media_type=4&ratio=default&improve_bitrate=1', headers = {'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36 OPR/72.0.3815.378', 'referer': 'https://www.tiktok.com/'})
+			with open('{}.mp4'.format(video['id']), 'wb') as fb:
+				fb.write(res.content)
+			return True
+		return False
+
+	def DownloadVideoById(self, vid):
+		# download video no water mark 
+		if(vid == ''):
+			return False
+		video = self.getVideoById(vid)
+		if(video):
+			vid = video['id']
+			res = requests.get(f'https://api-h2.tiktokv.com/aweme/v1/play/?video_id={vid}&vr_type=0&is_play_url=1&source=PackSourceEnum_FEED&media_type=4&ratio=default&improve_bitrate=1', headers = {'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36 OPR/72.0.3815.378', 'referer': 'https://www.tiktok.com/'})
+			with open('{}.mp4'.format(video['id']), 'wb') as fb:
+				fb.write(res.content)
+			return True
+		return False
+
+
+
+
+
+
+
+				
