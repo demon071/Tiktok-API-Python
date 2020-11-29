@@ -11,7 +11,7 @@ Api = TiktokApi.Tiktok()
 ```
 ## getUser
 ```python
-user = Api.getUserId('vtkh2004')
+user = Api.getUser('vtkh2004')
 print(user)
 ```
 ## getUserFeed
@@ -26,7 +26,7 @@ print(music)
 ```
 ## getMusicFeed
 ```python
-musicfeed  = Api.getUserFeed('6896022404674800386', '0')
+musicfeed  = Api.getMusicFeed('6896022404674800386', '0')
 print(musicfeed)
 ```
 ## getChallenge
