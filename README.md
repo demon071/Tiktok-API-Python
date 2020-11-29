@@ -1,6 +1,12 @@
 # Tiktok API 
 API Tiktok use Python
-
+## Tool download All video
+- Support downloading all video users on 4 platforms: TikTok, TikTok China (Douyin), Kwai, Kwai China (Kuaishou)
+- Video quality full HD
+- Download multiple channels at the same time
+- Automatically create cross-platform folders and download IDs
+=>  https://youtu.be/btpZPN7kFOU
+=>  anhk1996@gmail.com
 # Install
 pip install requests
 
