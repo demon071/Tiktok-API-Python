@@ -47,7 +47,7 @@ print(challengefeed)
 ```
 ## getTredingFeed
 ```python
-trending = Api.getTrendingFeed('0')
+trending = Api.getTrendingFeed(count = 30, region = 'IN')
 print(trending)
 ```
 ## getVideoById
@@ -61,7 +61,7 @@ vid = Api.getVideoByUrl('https://www.tiktok.com/@tiktok/video/680189510588519552
 print(vid)
 ```
 
-## DownloadVideoByUrl
+## DownloadVideoByID
 ```python
 Api.DownloadVideoByUrl('https://www.tiktok.com/@tiktok/video/6801895105885195526')
 ```
