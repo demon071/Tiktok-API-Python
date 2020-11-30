@@ -124,7 +124,8 @@ class Tiktok:
 				return False
 		else:
 			url = self.ALTERNATIVE_BASE_URL + 'item_list/'
-			params['region'] = region
+			param['region'] = region
+			param['sourceType'] = '12'
 			data = requests.get(url, params=param, headers=self.headers)
 			try:
 				return json.loads(data.content)
