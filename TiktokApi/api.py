@@ -17,6 +17,7 @@ class Tiktok:
 			'cookie' : self.cookie
 			"priority_region": self.region,
             		"region": self.region,
+			"tt-web-region": self.region,
 			}
 
 	def getCookie(self, cookies):
