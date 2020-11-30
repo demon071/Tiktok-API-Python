@@ -14,11 +14,12 @@ class Tiktok:
 		self.region = region
 		self.headers = {
 			'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36 OPR/72.0.3815.378',
-			'cookie' : self.cookie
+			'cookie' : self.cookie}
+		self.default_param = {
 			"priority_region": self.region,
             		"region": self.region,
-			"tt-web-region": self.region,
-			}
+			"tt-web-region": self.region
+		}
 
 	def getCookie(self, cookies):
 		ck = ''
@@ -116,6 +117,8 @@ class Tiktok:
 			"lang"      : "",
 			"verifyFp"  : "",
 			}
+		for key, val in self.default_params.items():
+            		params[key] = val
 		url = self.BASE_URL + 'video/feed'
 		data = requests.get(url, params=param, headers=self.headers)
 		try:
