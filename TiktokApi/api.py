@@ -9,16 +9,13 @@ class Tiktok:
 	def __init__(self, cookie = None, verifyFp = None, region = "IN"):
 		
 		self.BASE_URL = 'https://www.tiktok.com/node/'
+		self.ALTERNATIVE_BASE_URL = 'https://t.tiktok.com/api/'
 		self.cookie = cookie
 		self.verifyFp = verifyFp
 		self.region = region
 		self.headers = {
 			'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36 OPR/72.0.3815.378',
-			'cookie' : self.cookie}
-		self.default_param = {
-			"priority_region": self.region,
-            		"region": self.region,
-			"tt-web-region": self.region
+			'cookie' : self.cookie
 		}
 
 	def getCookie(self, cookies):
@@ -104,7 +101,7 @@ class Tiktok:
 				return False
 		return False
 
-	def getTrendingFeed(self, maxCursor = 0):
+	def getTrendingFeed(self, maxCursor = 0, region = None):
 		
 		param = {
 			"type"      : 5,
@@ -117,15 +114,22 @@ class Tiktok:
 			"lang"      : "",
 			"verifyFp"  : "",
 			}
-		for key, val in self.default_params.items():
-            		params[key] = val
-		url = self.BASE_URL + 'video/feed'
-		data = requests.get(url, params=param, headers=self.headers)
-		try:
-			data = data.json()
-			return data['body']
-		except:
-			return False
+		if region == None:
+			url = self.BASE_URL + 'video/feed'
+			data = requests.get(url, params=param, headers=self.headers)
+			try:
+				data = data.json()
+				return data['body']
+			except:
+				return False
+		else:
+			url = self.ALTERNATIVE_BASE_URL + 'item_list/'
+			params['region'] = region
+			data = requests.get(url, params=param, headers=self.headers)
+			try:
+				return json.loads(data.content)
+			except:
+				return False
 
 	def getUser(self, username):
 		if(username==''):
