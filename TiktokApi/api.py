@@ -101,13 +101,13 @@ class Tiktok:
 				return False
 		return False
 
-	def getTrendingFeed(self, maxCursor = 0, region = None):
+	def getTrendingFeed(self, maxCursor = 0,count = "30", region = None):
 		
 		param = {
 			"type"      : 5,
 			"secUid"    : "",
 			"id"        : 1,
-			"count"     : 30,
+			"count"     : str(count),
 			"minCursor" : 0,
 			"maxCursor" : maxCursor,
 			"shareUid"  : "",
