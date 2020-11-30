@@ -6,13 +6,12 @@ import re
 import urllib.parse
 
 class Tiktok:
-	def __init__(self, cookie = None, verifyFp = None, region = "IN"):
+	def __init__(self, cookie = None, verifyFp = None):
 		
 		self.BASE_URL = 'https://www.tiktok.com/node/'
 		self.ALTERNATIVE_BASE_URL = 'https://t.tiktok.com/api/'
 		self.cookie = cookie
 		self.verifyFp = verifyFp
-		self.region = region
 		self.headers = {
 			'user-agent' : 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36 OPR/72.0.3815.378',
 			'cookie' : self.cookie
