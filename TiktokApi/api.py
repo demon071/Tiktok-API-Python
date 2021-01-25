@@ -171,30 +171,6 @@ class Tiktok:
 				return False
 		return False
 
-	def getVideoId(self, vid):
-		if(vid == ''):
-			return False
-		base_url = 'https://api.wppress.net/tiktok/nwm/{}'.format(vid)
-		data = requests.get(base_url, headers=self.headers)
-		try:
-			data = data.json()
-			return data
-		except:
-			return False
-
-	def DownloadVideoNoWatermark(self, vid, folder = '.'): 
-		if(vid == ''):
-			return False
-		video = self.getVideoId(vid)
-		if(video):
-			vid = video['id']
-			res = requests.get(f'https://api-h2.tiktokv.com/aweme/v1/play/?video_id={vid}&vr_type=0&is_play_url=1&source=PackSourceEnum_FEED&media_type=4&ratio=default&improve_bitrate=1', headers = {'user-agent':'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.66 Safari/537.36 OPR/72.0.3815.378', 'referer': 'https://www.tiktok.com/'})
-			with open('{}/{}.mp4'.format(folder, video['id']), 'wb') as fb:
-				fb.write(res.content)
-			return True
-		return False
-
-		
 	def save_cookies(self, requests_cookiejar, filename):
 		with open(filename, 'wb') as f:
 			pickle.dump(requests_cookiejar, f)
