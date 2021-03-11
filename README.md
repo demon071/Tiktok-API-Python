@@ -1,3 +1,5 @@
+Hiện mình có cung cấp công cụ tải video tiktok, douyin, kuaishou.
+Liên hệ Fb để biết thêm thông tin: www.facebook.com/AdK.T36
 # Tiktok API 
 API Tiktok use Python
 
