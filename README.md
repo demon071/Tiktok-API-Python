@@ -9,53 +9,9 @@ cd Tiktok-API-Python
 pip install -r requirements.txt
 ```
 
-## Quick Start
-
-```python
-from TiktokApi import *
-
-Api = Tiktok()
-trending, _ = Api.getTrendingFeed(max_cursor= '0')
-for trend in trending['itemListData']:
-    print(trend['itemInfos']['text'])
-
-# print caption video
-```
-
-## Download Video Trending Nowatermark
-```python
-from TiktokApi import *
-
-Api = Tiktok()
-trending, _ = Api.getTrendingFeed(max_cursor= '0')
-headers = {
-    "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36",
-
-    # Your device ID
-    "iid": "",
-    "openudid": "", 
-    "device-id": "",
-
-    # Your proxy
-    "proxy-host": "",
-    "proxy-port": "",
-    "proxy-user": "",
-    "proxy-pass": "",
-       
- }
-download = Download(path='trendingVideo')
-items = []
-for trend in trending['itemListData']:
-    items.append(trend['itemInfos']['id'])
-
-for item in items:
-    result = download.downloadVideoNoWatermarkByID(id=item, file_name=item, headers=headers)
-    if result:
-        print("Download Video {}.mp4".format(item))
-    else:
-        print("ERROR")
-```
-
+## Update 08/6/2022
+ - Upadte getTrendingFeed
+ - Update getUserFeed
 
 ### Buy me a Coffee
 
