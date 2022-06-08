@@ -10,7 +10,7 @@ pip install -r requirements.txt
 ```
 
 ## Update 08/6/2022
- - Upadte getTrendingFeed
+ - Update getTrendingFeed
  - Update getUserFeed
 
 ### Buy me a Coffee
