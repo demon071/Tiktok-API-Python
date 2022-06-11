@@ -2,7 +2,7 @@ from TiktokApi import *
 
 Api = Tiktok()
 
-# Khởi động tình duyệt trước khi lấy dữ liệu
+
 Api.openBrowser()
 
 limit = 40
@@ -13,16 +13,22 @@ while True:
     data = Api.getTrendingFeed(first=first)
     if first == True:
         for x in data['ItemModule']:
-            print(data['ItemModule'][x]['id'])
-            # print(data['ItemModule'][x]['desc'])
+        
+            video_id = data['ItemModule'][x]['id']
+            caption = data['ItemModule'][x]['desc']
+            print("Video <<%s>> <<%s>>" % (str(video_id), str(caption)))
+
             count += 1
             if count == limit:
                 flag = 1
                 break
     else:
         for x in data['itemList']:
-            # print(str(x['desc']))
-            print(str(x['id']))
+
+            caption = str(x['desc'])
+            video_id = str(x['id'])
+            print("Video <<%s>> <<%s>>" % (str(video_id), str(caption)))
+
             count += 1
             if count == limit:
                 flag = 1
@@ -32,6 +38,6 @@ while True:
     first = False
 
 
-# Đóng tình duyệt sau khi đã chạy xong
+
 Api.closeBrowser()
 

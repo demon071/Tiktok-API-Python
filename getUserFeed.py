@@ -2,12 +2,12 @@ from TiktokApi import *
 
 Api = Tiktok()
 
-# nhập tên người dùng
+# username 
 username = 'tiktok'
 
 url = 'https://tiktok.com/@%s' % username
 
-# Khởi động tình duyệt trước khi lấy dữ liệu
+
 Api.openBrowser(url)
 
 limit = 40
@@ -20,8 +20,11 @@ while True:
     if first == True:
         data = Api.getUserFeed(first=first)
         for x in data['ItemModule']:
-            print(data['ItemModule'][x]['id'])
-            # print(data['ItemModule'][x]['desc'])
+
+            video_id = data['ItemModule'][x]['id']
+            caption = data['ItemModule'][x]['desc']
+            print("Video <<%s>> <<%s>>" % (str(video_id), str(caption)))
+
             count += 1
             if count == limit:
                 flag = 1
@@ -33,8 +36,11 @@ while True:
     else:
         data = Api.getUserFeed(secUid=secUid, cursor=cursor, first=first)
         for x in data['itemList']:
-            # print(str(x['desc']))
-            print(str(x['id']))
+           
+            caption = str(x['desc'])
+            video_id = str(x['id'])
+            print("Video <<%s>> <<%s>>" % (str(video_id), str(caption)))
+
             count += 1
             if count == limit:
                 flag = 1
@@ -48,5 +54,5 @@ while True:
     # break
 
 
-# Đóng tình duyệt sau khi đã chạy xong
+
 Api.closeBrowser()

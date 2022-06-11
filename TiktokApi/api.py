@@ -62,46 +62,23 @@ class Tiktok:
             return False
         
 
-
-    def getChallengeFeed(self, challenge = '', max_cursor = 0, ch_id = '0'):
-        if challenge == '' and ch_id == '0':
-            return 'Challenge or Ch_id is required'
-        param = {
-            "type": 3,
-            "secUid": "",
-            "id": '',
-            "count": 30,
-            "minCursor": 0,
-            "maxCursor": max_cursor,
-            "shareUid": "",
-            "lang": "",
-            "verifyFp": "",
-        }
-        if ch_id != '0':
-            param['id'] = ch_id
-        else:
-            ch = self.getInfoChallenge(challenge)
-            if ch:
-                param['id'] = ch['challengeInfo']['challenge']['id']
-            else:
-                return False
+    def getChallengeFeed(self, ch_id = '', cursor = 0, first = True):
+        if first == True:
+            return self.browser.first_data()
         try:
-            url = self.BASE_URL + 'video/feed'
-            res = requests.get(
-                url, 
-                params=param,
-                headers={
-                    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
-                    "authority": "www.tiktok.com",
-                    "Accept-Encoding": "gzip, deflate",
-                    "Connection": "keep-alive",
-                    "Host": "www.tiktok.com",
-                    "User-Agent": "Mozilla/5.0  (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) coc_coc_browser/86.0.170 Chrome/80.0.3987.170 Safari/537.36",
-                }
-            )
-            resp = res.json()
-            return resp['body'], res.cookies.get_dict()
+            params = {
+                'challengeID': ch_id,
+                'count': '30',
+                'cursor': cursor,
+            }
+            params.update(self.default_params)
+            params = dict(sorted(params.items(), key=lambda item: item[1]))
+            api_url = set_url('/api/challenge/item_list/', params)
+            tt_params = get_tt_param(get_param_url(params))
+            data = self.browser.fetch_browser(api_url, tt_params)
+            return data
         except Exception:
+            import traceback 
             print(traceback.format_exc())
             return False
 
