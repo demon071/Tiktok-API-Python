@@ -5,9 +5,8 @@ __pycache__/
 # C extensions
 *.so
 
-*.c
 
-setup.py
+
 # Distribution / packaging
 .Python
 build/
@@ -131,7 +130,3 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-
-# custom file
-browser.py
-encryption.py

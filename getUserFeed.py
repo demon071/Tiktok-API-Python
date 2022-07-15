@@ -1,3 +1,6 @@
+import sys
+sys.stdin.reconfigure(encoding='utf-8')
+sys.stdout.reconfigure(encoding='utf-8')
 from TiktokApi import *
 
 Api = Tiktok()
@@ -8,7 +11,7 @@ username = 'tiktok'
 url = 'https://tiktok.com/@%s' % username
 
 
-Api.openBrowser(url)
+Api.openBrowser(url, True)
 
 limit = 40
 count = 0
