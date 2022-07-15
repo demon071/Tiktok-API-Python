@@ -2,7 +2,6 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from .ultis import parse_query, process_browser_log_entry
-from .get_acrawler import *
 
 class Browser:
     def __init__(self, url, show_br = False):
@@ -47,13 +46,6 @@ class Browser:
             fetch("%s", {
             "headers": { \
                 "accept": "*/*",
-                "accept-language": "en-US,en;q=0.9",
-                "sec-ch-ua": "\\" Not A;Brand\\";v=\\"99\\", \\"Chromium\\";v=\\"102\\", \\"Google Chrome\\";v=\\"102\\"",
-                "sec-ch-ua-mobile": "?0",
-                "sec-ch-ua-platform": "\\"Windows\\"",
-                "sec-fetch-dest": "empty",
-                "sec-fetch-mode": "cors",
-                "sec-fetch-site": "same-origin",
         ''' % url
         if params != '':
             js += ''' \
