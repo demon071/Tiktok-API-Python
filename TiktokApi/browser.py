@@ -43,6 +43,7 @@ class Browser:
 
     def fetch_browser(self, url, params = ''):
         js = '''\
+            done = arguments[arguments.length-1];
             fetch("%s", {
             "headers": { \
                 "accept": "*/*",
@@ -53,33 +54,16 @@ class Browser:
             ''' % params
         js += ''' \
             },
-            "referrer": "https://www.tiktok.com/",
             "referrerPolicy": "strict-origin-when-cross-origin",
             "body": null,
             "method": "GET",
             "mode": "cors",
             "credentials": "include"
             }).then(response => response.json())
-            .then(data =>a = data);
+            .then(done);
         '''
-        # print(js)
-        self.driver.execute_script(js)
-        import time 
-        time.sleep(4)
-        
-        return self.driver.execute_script("return a;")
+        return self.driver.execute_async_script(js)
 
-    def get_tt_params_script(self, url):
-        js = _get_tt_params_script()
-        self.driver.execute_script(js)
-        import time 
-        time.sleep(4)
-        tt = self.driver.execute_script("""return window.genXTTParams("""
-                + json.dumps(dict(parse_qsl(urlparse(url).query)))
-                + """);
-            
-                }""")
-        return tt
 
     def get_page_source(self):
         return self.driver.page_source

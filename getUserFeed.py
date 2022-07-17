@@ -5,7 +5,7 @@ from TiktokApi import *
 
 Api = Tiktok()
 
-# username 
+# edit username  here
 username = 'tiktok'
 
 url = 'https://tiktok.com/@%s' % username
