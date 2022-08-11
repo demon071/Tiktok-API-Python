@@ -1,4 +1,3 @@
-from turtle import Turtle
 import requests
 import json
 import base64
