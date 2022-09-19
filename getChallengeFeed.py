@@ -16,7 +16,6 @@ first = True
 flag = 0
 cursor = 0
 secUid = ''
-dl = Download()
 while True:
     if first == True:
         data = Api.getChallengeFeed(first=first)
