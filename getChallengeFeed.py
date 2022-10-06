@@ -20,11 +20,9 @@ while True:
     if first == True:
         data = Api.getChallengeFeed(first=first)
         for x in data['ItemModule']:
-            # show video ID
-            print(data['ItemModule'][x]['id'])
-            # show video caption
-
-            # print(data['ItemModule'][x]['desc'])
+            video_id = data['ItemModule'][x]['id']
+            caption = data['ItemModule'][x]['desc']
+            print("Video <<%s>> <<%s>>" % (str(video_id), str(caption)))
             count += 1
             if count == limit:
                 flag = 1
@@ -36,12 +34,12 @@ while True:
 
         
     else:
-        data = Api.getChallengeFeed(ch_id=ch_id, cursor=cursor, first=first)
+        data = Api.getChallengeFeed(ch_id=ch_id, cursor=str(cursor), first=first)
         for x in data['itemList']:
             
-            # print(str(x['desc']))
-
-            print(str(x['id']))
+            video_id = data['ItemModule'][x]['id']
+            caption = data['ItemModule'][x]['desc']
+            print("Video <<%s>> <<%s>>" % (str(video_id), str(caption)))
             count += 1
             if count == limit:
                 flag = 1
