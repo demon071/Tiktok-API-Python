@@ -10,9 +10,8 @@ username = 'tiktok'
 
 url = 'https://tiktok.com/@%s' % username
 
-
 Api.openBrowser(url, True)
-
+input('Skip the captcha, press Enter to continue ')
 limit = 40
 count = 0
 first = True
